@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="jquery-3.6.1.min.js"></script>
+    <title>Custom Audio Player</title>
+  </head>
+  <body>
+    <!-- \/THI IS THE STUFF I CARE ABOUT-->
+    <div id="ac_audio_player" class="container">
+      <div id="container__play" class="container__play">
+        <button
+          id="play_button"
+          class="button__play play"
+          aria-label="Play"
+        ></button>
+      </div>
+      <div id="container__slider-progress" class="container__slider | progress">
+        <div
+          id="slider-progress__background"
+          class="slider background | progress"
+          data_control-type="progress"
+        >
+          <div
+            id="slider-progress__buffering"
+            class="slider buffering | progress"
+          ></div>
+          <div
+            id="slider-progress__scrubber"
+            class="slider scrubber | progress"
+          ></div>
+          <div
+            id="slider-progress__thumb"
+            class="slider__thumb | progress"
+            data_control-type="progress"
+            tabindex="0"
+          ></div>
+        </div>
+      </div>
+      <div id="container__timer" class="container__timer">
+        <span id="timer__elapsed" class="timer elapsed">00:00</span>
+        <span class="timer__separator">/</span>
+        <span id="timer__duration" class="timer duration">00:00</span>
+      </div>
+      <div
+        id="container__mute"
+        class="container__mute"
+        tabindex="0"
+        aria-label="Mute"
+      >
+        <svg
+          viewBox="0 0 26.458333 26.458333"
+          id="icon__sound"
+          width="30"
+          height="30"
+        >
+          <path
+            d="M 17.223576,18.79018 17.021483,18.605989 A 9.5936985,7.7801043 14.41411 0 0 16.970316,7.8507627 l 0.244893,-0.1826064 a 9.5936985,7.7801043 14.41411 0 1 0.0084,11.1220237 z m 1.976603,1.425752 -0.202092,-0.231415 A 10.237866,9.159766 57.054212 0 0 18.946917,6.4718271 L 19.19181,6.2424034 a 10.237866,9.159766 57.054212 0 1 0.0084,13.9735286 z m 1.382906,1.494361 -0.245317,-0.28091 A 12.427586,11.118896 57.054207 0 0 20.275657,5.0265372 l 0.297272,-0.2784939 a 12.427586,11.118896 57.054207 0 1 0.01016,16.9622497 z m 1.492076,1.219575 -0.280593,-0.321304 A 14.214657,12.71778 57.0542 0 0 21.723528,3.847009 l 0.34002,-0.318541 a 14.214657,12.71778 57.0542 0 1 0.01161,19.4014 z m -5.948876,2.999183 c -0.09081,0.0024 -0.18459,-0.03372 -0.272587,-0.116024 L 9.0530642,19.88956 6.9220894,17.755538 H 3.1585181 c -1.4567478,0 -2.62935176,-1.182787 -2.62935176,-2.651988 v -3.748525 c 0,-1.4691997 1.17260396,-2.6519885 2.62935176,-2.6519885 H 6.9413929 L 9.0864058,6.5674602 15.853698,0.64347671 c 0.163374,-0.1524134 0.364836,-0.1524134 0.528211,0 0.163406,0.15204262 0.264418,0.43371619 0.264397,0.73810229 V 13.22851 25.075443 c 3.83e-4,0.492402 -0.247599,0.846311 -0.520021,0.853608 z"
+          />
+        </svg>
+      </div>
+      <div id="container__slider-volume" class="container__slider | volume">
+        <div
+          id="slider-volume__background"
+          class="slider background | volume"
+          data_control-type="volume"
+        >
+          <div
+            id="slider-volume__buffering"
+            class="slider buffering | volume"
+          ></div>
+          <div
+            id="slider-volume__scrubber"
+            class="slider scrubber | volume"
+          ></div>
+          <div
+            id="slider-volume__thumb"
+            class="slider__thumb | volume"
+            data_control-type="volume"
+            tabindex="0"
+          ></div>
+        </div>
+      </div>
+      <!--This element is here only for dev purposes. On production sites, this shouldn't be a problem if you coded everything right. See docs.-->
+      <div id="audio_error" class="error_message">
+        <strong>Warning:</strong> An audio element was not found on this page.
+      </div>
+    </div>
+
+    <audio id="player" preload="metadata">
+      <source
+        src="https://thefaithstrugglebus.com/wp-content/uploads/2022/10/Jahzzar_-_01_-_Be_nice.mp3"
+        type="audio/mpeg"
+      />
+    </audio>
+    <!-- /\THIS IS THE STUFF I CARE ABOUT-->
+  </body>
+  <script src="script.js"></script>
+</html>

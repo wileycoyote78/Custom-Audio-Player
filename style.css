@@ -1,0 +1,344 @@
+/**
+
+This stylesheet may need to be renamed. Also, I need to make
+sure I do not use conflicting custom property names. To do that
+I will be prefacing the property name with 'player_' to prevent
+such conflicts.
+
+*/
+
+:root {
+  --player_base-color: 0 0% 5%;
+  --player_accent-color: 0 0% 20%;
+  --player_forecolor: 0 0% 95%;
+  --player_active-color: 234 94% 57%;
+  --player_slider_background-color: 0 0% 0%;
+  --player_slider_buffer-color: 0 0% 50%;
+  --player_slider_padding: 1em;
+  --player_slider_height: 1em;
+  --player_progress-value: 0%;
+  --player_volume-value: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  justify-content: space-evenly;
+  font-family: sans;
+  font-size: clamp(9px, 1rem, 14px);
+  color: hsl(var(--player_forecolor));
+  width: clamp(60px, 100%, 600px);
+  height: max(1em, 60px);
+  padding-inline: 1em;
+  overflow: hidden;
+  position: relative; /*Remove if no absolute elements*/
+  background: linear-gradient(
+    to bottom,
+    hsl(var(--player_base-color)),
+    hsl(var(--player_accent-color)),
+    hsl(var(--player_base-color))
+  );
+  border-radius: 5px;
+
+  /**REMOVE MARGIN IN PRODUCTION!!**/
+  margin: 2em auto;
+  /*   scale: .65; */
+}
+
+/******
+  PLAY/PAUSE BUTTON
+******/
+.container__play {
+  padding-block: 1em;
+  padding-inline: 0 1em;
+  background-color: transparent;
+  min-width: 35px;
+  height: 100%;
+}
+
+.only_play .container__play {
+  padding-inline: 0.3em;
+}
+
+.button__play {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  background-color: transparent;
+}
+
+.button__play::before,
+.button__play::after {
+  content: '';
+  position: absolute;
+  background-color: transparent;
+  width: 0;
+  height: 24px;
+  top: 4px;
+  border-color: transparent hsl(var(--player_forecolor)) transparent
+    hsl(var(--player_forecolor));
+  border-style: solid;
+  border-radius: 3px;
+  border-width: 0 0 0 8px;
+  transition: all 200ms linear;
+}
+
+.button__play::before {
+  left: 0;
+}
+
+.button__play::after {
+  right: 0px;
+}
+
+.button__play.play::after {
+  height: 0;
+}
+
+.button__play.play::before,
+.button__play.play::after {
+  top: 2px;
+  left: 0;
+  border-width: 14px 0 14px 28px;
+}
+
+/*Visible button background with circle radius*/
+.button__play.circle {
+  border-radius: 50%;
+}
+
+/*Position of the elements needs to be adjusted a bit to
+center in the circle*/
+.button__play.circle::before,
+.button__play.circle::after {
+  height: 28px;
+  top: 6px;
+}
+
+.button__play.circle.play::before,
+.button__play.circle.play::after {
+  left: 8px;
+}
+
+.button__play:hover,
+.button__play:focus {
+  --player_forecolor: var(--player_active-color);
+}
+
+.button__play:focus,
+.container__mute:focus svg {
+  outline: 2px solid hsl(var(--player_forecolor));
+}
+
+/******
+  SCRUBBER & VOLUME
+******/
+.container__slider {
+  position: relative;
+  margin-block: auto;
+  padding-inline: 1em 0.5em;
+}
+
+.container__slider.progress {
+  width: clamp(200px, 100%, 300px);
+}
+
+.container__slider.volume {
+  width: clamp(75px, 100%, 150px);
+}
+
+.slider {
+  width: 100%;
+  height: var(--player_slider_height);
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.slider.buffering,
+.slider.scrubber {
+  height: calc(var(--player_slider_height) - 1px);
+}
+
+.slider.background {
+  background-color: hsl(var(--player_slider_background-color) / 0.3);
+  z-index: 11;
+  border-bottom: 1px solid hsl(var(--player_forecolor));
+}
+
+.slider.buffering {
+  background-color: hsl(var(--player_slider_buffer-color) / 0.5);
+  z-index: 12;
+  width: 0;
+  top: 0;
+}
+
+.slider.scrubber {
+  background-color: hsl(var(--player_active-color));
+  z-index: 13;
+  box-shadow: inset 0 3px 6px 3px hsl(240 100% 10% / 0.5);
+  top: -100%;
+}
+
+.slider.scrubber.progress {
+  width: var(--player_progress-value);
+}
+
+.slider.scrubber.volume {
+  width: var(--player_volume-value);
+  top: -100%;
+}
+
+.slider__thumb {
+  height: calc(var(--player_slider_height) + 16px);
+  width: 0.65em;
+  background-color: hsl(var(--player_forecolor));
+  position: absolute;
+  top: calc(50% - 16px);
+  z-index: 14;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-left: -0.325em;
+  box-shadow: inset 3px 2px 3px 2px hsl(0 0% 20% / 0.7);
+}
+
+.slider__thumb.progress {
+  left: var(--player_progress-value);
+}
+
+.slider__thumb.volume {
+  left: var(--player_volume-value);
+}
+
+.slider__thumb:hover,
+.slider:hover + .slider__thumb,
+.slider__thumb:focus,
+.slider:focus + .slider__thumb {
+  --player_forecolor: var(--player_active-color);
+  box-shadow: inset 3px 2px 3px 2px hsl(240 100% 20% / 0.7);
+}
+
+/******
+  MUTE BUTTON
+******/
+.container__mute {
+  min-width: 30px;
+  max-width: 30px;
+  padding-block: 1em;
+  padding-inline-end: 1em;
+  position: relative;
+  cursor: pointer;
+}
+
+.container__mute svg {
+  width: 25px;
+}
+
+.container__mute path {
+  fill: hsl(var(--player_forecolor));
+}
+
+.container__mute::before,
+.container__mute::after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 125%;
+  height: 3px;
+  transform: scale(0, 1);
+  background-color: hsl(var(--player_forecolor));
+  box-shadow: 0 0 2px 3px hsl(0 100% 50% / 0.2);
+}
+
+.container__mute::before {
+  rotate: 45deg;
+  transition: transform 250ms ease-in-out;
+  transform-origin: left;
+}
+
+.container__mute::after {
+  top: 24%;
+  left: -33%;
+  rotate: -45deg;
+  transform-origin: right;
+  transition: transform 250ms ease-in-out 250ms;
+}
+
+.container__mute:hover path,
+.container__mute:focus path {
+  fill: hsl(var(--player_active-color));
+}
+
+.container__mute:focus {
+  outline: none;
+}
+
+.container__mute:hover::before,
+.container__mute:hover::after,
+.container__mute:focus::before,
+.container__mute:focus::after,
+.container__mute:focus {
+  --player_forecolor: var(--player_active-color);
+}
+
+.muted::before,
+.muted::after {
+  transform: scale(1);
+}
+
+/******
+  TIMER
+******/
+.container__timer {
+  display: flex;
+  height: 100%;
+  padding-inline: 1em;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+}
+.container__timer.no_mute {
+  padding-inline: 1em 0;
+}
+
+.container__timer,
+.container__timer * {
+  pointer-events: none;
+  user-select: none;
+}
+
+.timer__separator {
+  margin-inline: 0.2em;
+}
+
+/******
+  ERROR
+******/
+/*In production sites, you should remove this unless you feel you can make use of it.*/
+.error_message {
+  color: red;
+  position: absolute;
+  background-color: black;
+  bottom: 0;
+  width: 100%;
+  padding-inline: 1em;
+  display: none;
+}
+
+.tucked {
+  display: none;
+}
